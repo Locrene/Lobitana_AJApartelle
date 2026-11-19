@@ -1,0 +1,80 @@
+import { useEffect, useState } from 'react';
+import FormField from '../components/FormField';
+import { staffAccountService } from '../services/authService';
+import { validateAccount } from '../services/validation';
+
+const EMPTY = { fullName: '', email: '', mobileNumber: '', password: '' };
+
+/** Owner-only: add staff accounts and activate/deactivate them (SRS FR-061). */
+export default function StaffAccountsPage() {
+  const [staff, setStaff] = useState([]);
+  const [form, setForm] = useState(EMPTY);
+  const [errors, setErrors] = useState({});
+  const [message, setMessage] = useState('');
+  const [notice, setNotice] = useState('');
+
+  const load = () => staffAccountService.list().then(setStaff).catch((e) => setMessage(e.message));
+  useEffect(() => { load(); }, []);
+
+  const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setMessage(''); setNotice('');
+    const errs = validateAccount(form, { confirm: false });
+    setErrors(errs);
+    if (Object.keys(errs).length) return;
+    try {
+      const created = await staffAccountService.create(form);
+      setNotice(`Staff account created for ${created.email}.`);
+      setForm(EMPTY);
+      load();
+    } catch (err) {
+      setErrors(err.fieldErrors || {});
+      setMessage(err.message);
+    }
+  };
+
+  const toggle = async (s) => {
+    setMessage(''); setNotice('');
+    try {
+      await staffAccountService.setActive(s.id, !s.active);
+      load();
+    } catch (err) { setMessage(err.message); }
+  };
+
+  return (
+    <>
+      <h1>Staff Accounts</h1>
+      {message && <p className="alert">{message}</p>}
+      {notice && <p className="success">{notice}</p>}
+      <div className="grid">
+        <form className="card" onSubmit={onSubmit} noValidate>
+          <h3>Add staff account</h3>
+          <FormField label="Full name" name="fullName" value={form.fullName} onChange={onChange} error={errors.fullName} />
+          <FormField label="Email" name="email" type="email" value={form.email} onChange={onChange} error={errors.email} />
+          <FormField label="Mobile number (09XXXXXXXXX)" name="mobileNumber" value={form.mobileNumber} onChange={onChange} error={errors.mobileNumber} maxLength={11} />
+          <FormField label="Temporary password" name="password" type="password" value={form.password} onChange={onChange} error={errors.password} autoComplete="new-password" />
+          <button type="submit">Add staff</button>
+        </form>
+        <section className="card">
+          <h3>Staff list</h3>
+          {staff.length === 0 ? <p>No staff accounts yet.</p> : (
+            <table>
+              <thead><tr><th>Name</th><th>Email</th><th>Mobile</th><th>Status</th><th></th></tr></thead>
+              <tbody>
+                {staff.map((s) => (
+                  <tr key={s.id}>
+                    <td>{s.fullName}</td><td>{s.email}</td><td>{s.mobileNumber}</td>
+                    <td>{s.active ? 'Active' : 'Deactivated'}</td>
+                    <td><button className="small" onClick={() => toggle(s)}>{s.active ? 'Deactivate' : 'Reactivate'}</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </section>
+      </div>
+    </>
+  );
+}
