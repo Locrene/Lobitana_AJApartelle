@@ -74,6 +74,9 @@ CREATE DATABASE ajapartelle OWNER ajapartelle;
 ```
 
 (Or run `psql -U postgres -f database/create_database.sql`.) You do not need to create the tables by hand: Flyway creates them when the backend starts.
+#### No admin rights? (school/lab PCs)
+Extract the PostgreSQL 16 Windows binaries ZIP (enterprisedb.com/download-postgresql-binaries) to `%USERPROFILE%`, then in `%USERPROFILE%\pgsql\bin` run `initdb -D %USERPROFILE%\pgdata -U postgres -A trust -E UTF8` and `pg_ctl -D %USERPROFILE%\pgdata -l %USERPROFILE%\pg.log start`, then create the user and database with `psql -U postgres` using the SQL above. No administrator rights are needed.
+
 
 ### 3. Backend `.env`
 
