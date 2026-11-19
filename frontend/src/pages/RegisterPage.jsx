@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import FormField from '../components/FormField';
+import Logo from '../components/Logo';
 import { authService } from '../services/authService';
 import { validateAccount } from '../services/validation';
 
@@ -37,7 +38,11 @@ export default function RegisterPage() {
   return (
     <div className="auth-page">
       <form className="card auth-card" onSubmit={onSubmit} noValidate>
-        <h1>AJ Apartelle</h1>
+        <div className="auth-brand">
+          <Logo size={72} />
+          <h1>AJ Apartelle</h1>
+          <p>Clean, quiet rooms in Cebu. Create an account to request bookings.</p>
+        </div>
         <h2>Create a guest account</h2>
         {message && <p className="alert">{message}</p>}
         <FormField label="Full name" name="fullName" value={form.fullName} onChange={onChange} error={errors.fullName} autoComplete="name" />

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import FormField from '../components/FormField';
+import Logo from '../components/Logo';
 import { DASHBOARD_BY_ROLE, useAuth } from '../context/AuthContext';
 import { EMAIL_RE } from '../services/validation';
 
@@ -38,7 +39,11 @@ export default function LoginPage() {
   return (
     <div className="auth-page">
       <form className="card auth-card" onSubmit={onSubmit} noValidate>
-        <h1>AJ Apartelle</h1>
+        <div className="auth-brand">
+          <Logo size={72} />
+          <h1>AJ Apartelle</h1>
+          <p>Clean, quiet rooms in Cebu. Sign in to continue.</p>
+        </div>
         <h2>Sign in</h2>
         {location.state?.registered && <p className="success">Account created. You can now sign in.</p>}
         {message && <p className="alert">{message}</p>}

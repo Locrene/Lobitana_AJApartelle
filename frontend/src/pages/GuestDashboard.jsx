@@ -8,7 +8,7 @@ export default function GuestDashboard() {
   if (!data) return <p>Loading...</p>;
   return (
     <>
-      <h1>Welcome, {data.fullName}</h1>
+      <div className="page-head"><p className="eyebrow">Guest</p><h1>Welcome, {data.fullName}</h1><p className="meta">Your AJ Apartelle account.</p></div>
       <section className="card">
         <h3>My profile</h3>
         <dl>

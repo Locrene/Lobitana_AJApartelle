@@ -45,7 +45,7 @@ export default function StaffAccountsPage() {
 
   return (
     <>
-      <h1>Staff Accounts</h1>
+      <div className="page-head"><p className="eyebrow">Owner</p><h1>Staff Accounts</h1><p className="meta">Add front-desk staff and control who can sign in.</p></div>
       {message && <p className="alert">{message}</p>}
       {notice && <p className="success">{notice}</p>}
       <div className="grid">
@@ -60,18 +60,18 @@ export default function StaffAccountsPage() {
         <section className="card">
           <h3>Staff list</h3>
           {staff.length === 0 ? <p>No staff accounts yet.</p> : (
-            <table>
+            <div className="table-wrap"><table>
               <thead><tr><th>Name</th><th>Email</th><th>Mobile</th><th>Status</th><th></th></tr></thead>
               <tbody>
                 {staff.map((s) => (
                   <tr key={s.id}>
                     <td>{s.fullName}</td><td>{s.email}</td><td>{s.mobileNumber}</td>
-                    <td>{s.active ? 'Active' : 'Deactivated'}</td>
-                    <td><button className="small" onClick={() => toggle(s)}>{s.active ? 'Deactivate' : 'Reactivate'}</button></td>
+                    <td><span className={s.active ? 'chip chip-green' : 'chip chip-gray'}>{s.active ? 'Active' : 'Deactivated'}</span></td>
+                    <td><button className={s.active ? 'small danger' : 'small outline'} onClick={() => toggle(s)}>{s.active ? 'Deactivate' : 'Reactivate'}</button></td>
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           )}
         </section>
       </div>
