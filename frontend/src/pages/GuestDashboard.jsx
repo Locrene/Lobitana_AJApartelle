@@ -1,4 +1,5 @@
 import UpcomingModules from '../components/UpcomingModules';
+import Welcome from '../components/Welcome';
 import { dashboardService } from '../services/authService';
 import useDashboard from './useDashboard';
 
@@ -8,9 +9,10 @@ export default function GuestDashboard() {
   if (!data) return <p>Loading...</p>;
   return (
     <>
-      <div className="page-head"><p className="eyebrow">Guest</p><h1>Welcome, {data.fullName}</h1><p className="meta">Your AJ Apartelle account.</p></div>
+      <Welcome fullName={data.fullName} intro="This is your AJ Apartelle guest account."
+        next={{ text: 'Check that your name and mobile number are up to date.', to: '/profile', label: 'Open my profile' }} />
       <section className="card">
-        <h3>My profile</h3>
+        <h2 className="card-title">Your details</h2>
         <dl>
           <dt>Email</dt><dd>{data.email}</dd>
           <dt>Mobile number</dt><dd>{data.mobileNumber}</dd>

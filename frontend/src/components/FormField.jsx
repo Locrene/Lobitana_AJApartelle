@@ -1,9 +1,14 @@
-export default function FormField({ label, name, type = 'text', value, onChange, error, ...rest }) {
+import { useId } from 'react';
+
+export default function FormField({ label, name, type = 'text', value, onChange, error, hint, ...rest }) {
+  const id = useId();
+  const note = error || hint;
   return (
-    <label className="field">
-      <span>{label}</span>
-      <input name={name} type={type} value={value} onChange={onChange} aria-invalid={!!error} {...rest} />
-      {error && <small className="error">{error}</small>}
-    </label>
+    <div className="field">
+      <label htmlFor={id}>{label}</label>
+      <input id={id} name={name} type={type} value={value} onChange={onChange} aria-invalid={!!error}
+        aria-describedby={note ? `${id}-note` : undefined} {...rest} />
+      {note && <small id={`${id}-note`} className={error ? 'error' : 'hint'}>{note}</small>}
+    </div>
   );
 }

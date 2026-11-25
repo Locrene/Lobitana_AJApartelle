@@ -1,0 +1,25 @@
+# Local PostgreSQL 16 for development (laptops with Docker).
+# Same database name, user and password as backend/.env.example.
+# Start: docker compose up -d    Stop: docker compose down    Reset data: docker compose down -v
+services:
+  postgres:
+    image: postgres:16
+    container_name: ajapartelle-postgres
+    environment:
+      POSTGRES_DB: ajapartelle
+      POSTGRES_USER: ajapartelle
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-change-me}
+      TZ: Asia/Manila
+      PGTZ: Asia/Manila
+    ports:
+      - "5432:5432"
+    volumes:
+      - ajapartelle-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ajapartelle -d ajapartelle"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  ajapartelle-pgdata:

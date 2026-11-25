@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import FormField from '../components/FormField';
-import Logo from '../components/Logo';
+import AuthBrand from '../components/AuthBrand';
 import { DASHBOARD_BY_ROLE, useAuth } from '../context/AuthContext';
 import { EMAIL_RE } from '../services/validation';
 
@@ -37,21 +37,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="auth-page">
+    <main className="auth-page">
+      <AuthBrand />
       <form className="card auth-card" onSubmit={onSubmit} noValidate>
-        <div className="auth-brand">
-          <Logo size={72} />
-          <h1>AJ Apartelle</h1>
-          <p>Clean, quiet rooms in Cebu. Sign in to continue.</p>
+        <div>
+          <h2 className="auth-title">Sign in</h2>
+          <p className="auth-intro">Good to see you again.</p>
         </div>
-        <h2>Sign in</h2>
         {location.state?.registered && <p className="success">Account created. You can now sign in.</p>}
         {message && <p className="alert">{message}</p>}
         <FormField label="Email" name="email" type="email" value={form.email} onChange={onChange} error={errors.email} autoComplete="email" />
         <FormField label="Password" name="password" type="password" value={form.password} onChange={onChange} error={errors.password} autoComplete="current-password" />
         <button type="submit" disabled={busy}>{busy ? 'Signing in...' : 'Sign in'}</button>
-        <p>No account yet? <Link to="/register">Create a guest account</Link></p>
+        <Link className="text-link" to="/forgot-password">Forgot password?</Link>
+        <p className="auth-alt">No account yet? <Link className="text-link" to="/register">Create a guest account</Link></p>
       </form>
-    </div>
+    </main>
   );
 }

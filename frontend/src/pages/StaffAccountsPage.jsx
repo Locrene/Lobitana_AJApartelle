@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import FormField from '../components/FormField';
+import Icon from '../components/Icon';
 import { staffAccountService } from '../services/authService';
 import { validateAccount } from '../services/validation';
 
@@ -45,20 +46,20 @@ export default function StaffAccountsPage() {
 
   return (
     <>
-      <div className="page-head"><p className="eyebrow">Owner</p><h1>Staff Accounts</h1><p className="meta">Add front-desk staff and control who can sign in.</p></div>
+      <div className="page-head"><h1>Staff Accounts</h1><p className="meta">Add front-desk staff and control who can sign in.</p></div>
       {message && <p className="alert">{message}</p>}
       {notice && <p className="success">{notice}</p>}
       <div className="grid">
         <form className="card" onSubmit={onSubmit} noValidate>
-          <h3>Add staff account</h3>
+          <h2 className="card-title"><span className="title-icon"><Icon name="user" /></span>Add staff account</h2>
           <FormField label="Full name" name="fullName" value={form.fullName} onChange={onChange} error={errors.fullName} />
           <FormField label="Email" name="email" type="email" value={form.email} onChange={onChange} error={errors.email} />
-          <FormField label="Mobile number (09XXXXXXXXX)" name="mobileNumber" value={form.mobileNumber} onChange={onChange} error={errors.mobileNumber} maxLength={11} />
+          <FormField label="Mobile number" name="mobileNumber" value={form.mobileNumber} onChange={onChange} error={errors.mobileNumber} hint="11 digits, starting with 09." maxLength={11} />
           <FormField label="Temporary password" name="password" type="password" value={form.password} onChange={onChange} error={errors.password} autoComplete="new-password" />
           <button type="submit">Add staff</button>
         </form>
         <section className="card">
-          <h3>Staff list</h3>
+          <h2 className="card-title"><span className="title-icon"><Icon name="users" /></span>Staff list<span className="count">{staff.length}</span></h2>
           {staff.length === 0 ? <p>No staff accounts yet.</p> : (
             <div className="table-wrap"><table>
               <thead><tr><th>Name</th><th>Email</th><th>Mobile</th><th>Status</th><th></th></tr></thead>
@@ -67,7 +68,7 @@ export default function StaffAccountsPage() {
                   <tr key={s.id}>
                     <td>{s.fullName}</td><td>{s.email}</td><td>{s.mobileNumber}</td>
                     <td><span className={s.active ? 'chip chip-green' : 'chip chip-gray'}>{s.active ? 'Active' : 'Deactivated'}</span></td>
-                    <td><button className={s.active ? 'small danger' : 'small outline'} onClick={() => toggle(s)}>{s.active ? 'Deactivate' : 'Reactivate'}</button></td>
+                    <td><button className={s.active ? 'danger' : 'outline'} onClick={() => toggle(s)}>{s.active ? 'Deactivate' : 'Reactivate'}</button></td>
                   </tr>
                 ))}
               </tbody>
