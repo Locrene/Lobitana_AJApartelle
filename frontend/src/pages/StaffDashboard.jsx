@@ -1,4 +1,5 @@
 import UpcomingModules from '../components/UpcomingModules';
+import Welcome from '../components/Welcome';
 import { dashboardService } from '../services/authService';
 import useDashboard from './useDashboard';
 
@@ -8,11 +9,8 @@ export default function StaffDashboard() {
   if (!data) return <p>Loading...</p>;
   return (
     <>
-      <div className="page-head">
-        <p className="eyebrow">Front desk</p>
-        <h1>Staff Dashboard</h1>
-        <p className="meta">Signed in as {data.fullName} ({data.role}).</p>
-      </div>
+      <Welcome fullName={data.fullName} intro="You're signed in to the front desk."
+        next={{ text: 'Check that your name and mobile number are up to date, so the owner can reach you.', to: '/profile', label: 'Open my profile' }} />
       <section className="stats">
         <div className="stat"><strong>{data.activeStaff}</strong><span>Active staff accounts</span></div>
       </section>

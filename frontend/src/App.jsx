@@ -1,10 +1,13 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import { DASHBOARD_BY_ROLE, useAuth } from './context/AuthContext';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import GuestDashboard from './pages/GuestDashboard';
 import LoginPage from './pages/LoginPage';
 import OwnerDashboard from './pages/OwnerDashboard';
+import ProfilePage from './pages/ProfilePage';
 import RegisterPage from './pages/RegisterPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 import StaffAccountsPage from './pages/StaffAccountsPage';
 import StaffDashboard from './pages/StaffDashboard';
 import UnauthorizedPage from './pages/UnauthorizedPage';
@@ -26,6 +29,15 @@ export default function App() {
         <Route path="/register" element={<RegisterPage />} />
       </Route>
       <Route path="/unauthorized" element={<UnauthorizedPage />} />
+      {/* Not public-only: an emailed link must also open while someone is signed in. */}
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
+
+      <Route element={<ProtectedRoute />}>
+        <Route element={<Layout />}>
+          <Route path="/profile" element={<ProfilePage />} />
+        </Route>
+      </Route>
 
       <Route element={<ProtectedRoute roles={['GUEST']} />}>
         <Route element={<Layout />}>

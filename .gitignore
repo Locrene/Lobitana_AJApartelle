@@ -1,12 +1,23 @@
 # env / secrets
 .env
 *.env.local
+.env.*
+!.env.example
+*.jks
+*.keystore
+client_secret*.json
+credentials*.json
 # java
 backend/target/
 *.class
 # node
 node_modules/
 frontend/dist/
+# mobile (React Native / Expo)
+mobile/node_modules/
+mobile/.expo/
+mobile/android/
+mobile/ios/
 # ide / os
 .idea/
 .vscode/

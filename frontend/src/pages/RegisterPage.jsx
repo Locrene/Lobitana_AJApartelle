@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import FormField from '../components/FormField';
-import Logo from '../components/Logo';
+import AuthBrand from '../components/AuthBrand';
 import { authService } from '../services/authService';
 import { validateAccount } from '../services/validation';
 
@@ -36,23 +36,22 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="auth-page">
+    <main className="auth-page">
+      <AuthBrand />
       <form className="card auth-card" onSubmit={onSubmit} noValidate>
-        <div className="auth-brand">
-          <Logo size={72} />
-          <h1>AJ Apartelle</h1>
-          <p>Clean, quiet rooms in Cebu. Create an account to request bookings.</p>
+        <div>
+          <h2 className="auth-title">Create a guest account</h2>
+          <p className="auth-intro">Create an account to request bookings.</p>
         </div>
-        <h2>Create a guest account</h2>
         {message && <p className="alert">{message}</p>}
         <FormField label="Full name" name="fullName" value={form.fullName} onChange={onChange} error={errors.fullName} autoComplete="name" />
         <FormField label="Email" name="email" type="email" value={form.email} onChange={onChange} error={errors.email} autoComplete="email" />
-        <FormField label="Mobile number (09XXXXXXXXX)" name="mobileNumber" value={form.mobileNumber} onChange={onChange} error={errors.mobileNumber} inputMode="numeric" maxLength={11} />
+        <FormField label="Mobile number" name="mobileNumber" value={form.mobileNumber} onChange={onChange} error={errors.mobileNumber} hint="11 digits, starting with 09." inputMode="numeric" maxLength={11} />
         <FormField label="Password" name="password" type="password" value={form.password} onChange={onChange} error={errors.password} autoComplete="new-password" />
         <FormField label="Confirm password" name="confirmPassword" type="password" value={form.confirmPassword} onChange={onChange} error={errors.confirmPassword} autoComplete="new-password" />
         <button type="submit" disabled={busy}>{busy ? 'Creating account...' : 'Create account'}</button>
-        <p>Already have an account? <Link to="/login">Sign in</Link></p>
+        <p className="auth-alt">Already have an account? <Link className="text-link" to="/login">Sign in</Link></p>
       </form>
-    </div>
+    </main>
   );
 }
